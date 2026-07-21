@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Tests: 41](https://img.shields.io/badge/tests-43-brightgreen.svg)](#测试)
+[![Tests: 43](https://img.shields.io/badge/tests-43-brightgreen.svg)](#测试)
 [![Skill v1.0.0](https://img.shields.io/badge/skill-v1.0.0-purple.svg)](#版本维护)
 
 A 股分析**薄编排 skill**——只做输入归一化、技术指标计算、上下文合并、LLM 决策仪表盘 prompt、报告落盘；**所有 A 股原始数据获取委托 sibling skill [a-stock-data](https://github.com/simonlin1212/a-stock-data)（43 端点 / 15 数据源）**。单文件可移植、零项目运行时依赖、任何支持 skill 的智能体项目都能加载即用。
@@ -31,7 +31,7 @@ stock-analysis/
 │   ├── prompts.md                  # LLM SYSTEM_PROMPT + 决策仪表盘 JSON schema
 │   └── storage.md                  # 报告落盘（file/sqlite 双模式，纯标准库 snippets）
 ├── tests/
-│   ├── test_kline.py               # 20 条
+│   ├── test_kline.py               # 22 条
 │   ├── test_indicators.py          # 5 条
 │   └── test_batch.py               # 16 条
 └── storage/                        # 报告产物（file 模式 reports/，sqlite 模式 analysis.db）

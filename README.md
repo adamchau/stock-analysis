@@ -93,6 +93,24 @@ python -c "import sys; sys.path.insert(0,'scripts'); from lib.kline import fetch
 python scripts/batch.py
 ```
 
+### 方式 3：智能体一键安装（复制提示词直接装）
+
+把下面这段贴给你的 AI 助手（Claude Code / Codex / OpenClaw 等），它会把 skill + 数据层 sibling skill + 依赖一次装好，并跑个冒烟验证：
+
+```text
+请帮我安装 stock-analysis skill 及其数据依赖，步骤：
+1. git clone https://github.com/adamchau/stock-analysis.git ~/.claude/skills/stock-analysis
+2. 装 sibling skill a-stock-data（数据层）：curl -fsSL -o ~/.claude/skills/a-stock-data/SKILL.md https://raw.githubusercontent.com/simonlin1212/a-stock-data/main/SKILL.md （先 mkdir -p ~/.claude/skills/a-stock-data）
+3. pip install mootdx requests pandas stockstats
+4. 冒烟验证：python -c "import sys; sys.path.insert(0,'~/.claude/skills/stock-analysis/scripts'); from lib.kline import fetch_quote; q=fetch_quote('600519'); print('600519', q['date'], q['close'], q['data_source'])"
+装完说一声，然后我可以直接说「分析一下贵州茅台」激活本 skill。
+```
+
+> 单行版（直接粘到终端或让 agent exec）：
+> ```bash
+> git clone https://github.com/adamchau/stock-analysis.git ~/.claude/skills/stock-analysis && mkdir -p ~/.claude/skills/a-stock-data && curl -fsSL -o ~/.claude/skills/a-stock-data/SKILL.md https://raw.githubusercontent.com/simonlin1212/a-stock-data/main/SKILL.md && pip install mootdx requests pandas stockstats && python -c "import sys; sys.path.insert(0,'$HOME/.claude/skills/stock-analysis/scripts'); from lib.kline import fetch_quote; q=fetch_quote('600519'); print('ok', q['date'], q['close'], q['data_source'])"
+> ```
+
 ---
 
 ## 功能描述

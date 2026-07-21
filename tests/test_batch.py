@@ -146,6 +146,7 @@ def test_run_tier1_concurrent_and_signal(monkeypatch):
         return {"date": "2026-07-21", "open": 1.0, "high": 1.1, "low": 0.9,
                 "close": 1.05, "volume": 100, "pct_chg": 1.0, "data_source": "test",
                 "bars": [{"close": 1.0, "volume": 100}, {"close": 1.05, "volume": 120}]}
+    monkeypatch.setattr(batch, "warm_chain", lambda: ["tencent", "baidu"])  # 跳过真实发现
     monkeypatch.setattr(batch, "fetch_quote", fake_fetch_quote)
     monkeypatch.setattr(batch, "qt_batch_quote", lambda codes: {"600519": {"pe_ttm": 19.86, "mcap_yi": 16429}})
     rows = batch.run_tier1(items, workers=2)
@@ -159,6 +160,7 @@ def test_run_tier1_concurrent_and_signal(monkeypatch):
 
 def test_run_tier1_handles_failed_fetch(monkeypatch):
     items = [("880952", "芯片")]
+    monkeypatch.setattr(batch, "warm_chain", lambda: [])
     monkeypatch.setattr(batch, "fetch_quote", lambda c: None)
     monkeypatch.setattr(batch, "qt_batch_quote", lambda codes: {})
     rows = batch.run_tier1(items)

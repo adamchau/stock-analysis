@@ -196,6 +196,20 @@ def _safe(f: Callable, code: str, lookback: int) -> list[dict]:
 _last_working = [None]
 
 
+def warm_chain(sample: str = "600519") -> list[str]:
+    """预热 K线 优先链：若无保存链则用 sample 代码触发一次发现+持久化，返回保存链。
+
+    供 batch 等批量场景在并发池前调用一次，避免并发首波多 worker 同时探测死源（race）。
+    命中源是环境级（baidu/tencent/mootdx 对所有 A 股代码同可用性），用任一流动性好的
+    sample（默认 600519 贵州茅台）探测即可代表全部。已有保存链时直接返回，不重复探测。
+    """
+    chain = load_chain()
+    if not chain:
+        fetch_bars(sample)  # 触发 _discover_and_save，存链 + 设 _last_working
+        chain = load_chain()
+    return chain
+
+
 def fetch_bars(code: str, lookback: int = _DEFAULT_LOOKBACK) -> list[dict]:
     """取前复权日 K线 bars（[{date,open,close,high,low,volume}]），供 indicators.compute_all。
 

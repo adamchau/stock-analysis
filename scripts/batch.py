@@ -31,7 +31,7 @@ from typing import Optional
 warnings.filterwarnings("ignore")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from lib.kline import fetch_quote  # noqa: E402
+from lib.kline import fetch_quote, warm_chain  # noqa: E402
 from lib.indicators import compute_all  # noqa: E402
 
 _UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
@@ -230,7 +230,9 @@ def _within_window(ds: str, ws: date, today: date) -> bool:
 def run_tier1(items: list, workers: int = 8) -> list:
     """items: [(code, name), ...]。返回 row dicts（含 quote/indicators/signal/valuation）。"""
     codes = [c for c, _ in items]
-    # 1. K线 并发
+    # 0. 预热 K线 优先链：发现一次即存盘，并发池全部复用；仅链失效才自愈重探
+    warm_chain()
+    # 1. K线 并发（命中源已存链，各 worker 直接走命中源，不重复发现）
     quotes = {}
     with ThreadPoolExecutor(max_workers=workers) as ex:
         futs = {ex.submit(fetch_quote, c): c for c in codes}

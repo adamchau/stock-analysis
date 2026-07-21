@@ -26,7 +26,7 @@
 
 ### 测试
 
-- 41 单元测试：`test_kline.py`（20）+ `test_indicators.py`（5）+ `test_batch.py`（16），覆盖符号映射、腾讯/百度候选解析、优先链 load/save + 损坏兜底、首次发现+存链、保存链跳死源、全失败自愈、技术信号、新闻情绪、qt 批量解析、日期提取、recency 过滤、Tier1 并发+失败兜底。
+- 43 单元测试：`test_kline.py`（22）+ `test_indicators.py`（5）+ `test_batch.py`（16），覆盖符号映射、腾讯/百度候选解析、优先链 load/save + 损坏兜底、首次发现+存链、保存链跳死源、全失败自愈、技术信号、新闻情绪、qt 批量解析、日期提取、recency 过滤、Tier1 并发+失败兜底。
 
 ### 致谢
 

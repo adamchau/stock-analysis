@@ -210,3 +210,32 @@ def test_fetch_quote_single_bar_pct_none(tmp_path, monkeypatch):
     monkeypatch.setattr(kline, "_last_working", [None])
     q = kline.fetch_quote("515980")
     assert q is not None and q["pct_chg"] is None  # 仅 1 根无前收盘
+
+
+# ---- warm_chain ----
+
+def test_warm_chain_skips_when_chain_exists(tmp_path, monkeypatch):
+    """已有保存链 → 直接返回，不重复发现（不调 fetch_bars）。"""
+    chain_file = tmp_path / "kline_chain.json"
+    chain_file.write_text(json.dumps({"chain": ["tencent", "baidu"]}))
+    monkeypatch.setattr(kline, "_CHAIN_FILE", chain_file)
+    probed = []
+    monkeypatch.setattr(kline, "fetch_bars", lambda c, l=320: (probed.append(c), [])[1])
+    chain = kline.warm_chain()
+    assert chain == ["tencent", "baidu"]
+    assert probed == []   # 已有链，不发现
+
+
+def test_warm_chain_discovers_when_no_chain(tmp_path, monkeypatch):
+    """无保存链 → 用 sample 触发一次发现，返回存盘链。"""
+    monkeypatch.setattr(kline, "_CHAIN_FILE", tmp_path / "kline_chain.json")
+    calls = []
+    def fake_fetch_bars(c, l=320):
+        calls.append(c)
+        # 模拟 _discover_and_save 已存链
+        kline.save_chain(["tencent", "baidu"])
+        return [{"date":"2026-07-21","open":1,"close":1,"high":1,"low":1,"volume":1}]
+    monkeypatch.setattr(kline, "fetch_bars", fake_fetch_bars)
+    chain = kline.warm_chain("600519")
+    assert calls == ["600519"]   # 只发现一次
+    assert chain == ["tencent", "baidu"]

@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Tests: 41](https://img.shields.io/badge/tests-41-brightgreen.svg)](#测试)
+[![Tests: 41](https://img.shields.io/badge/tests-43-brightgreen.svg)](#测试)
 [![Skill v1.0.0](https://img.shields.io/badge/skill-v1.0.0-purple.svg)](#版本维护)
 
 A 股分析**薄编排 skill**——只做输入归一化、技术指标计算、上下文合并、LLM 决策仪表盘 prompt、报告落盘；**所有 A 股原始数据获取委托 sibling skill [a-stock-data](https://github.com/simonlin1212/a-stock-data)（43 端点 / 15 数据源）**。单文件可移植、零项目运行时依赖、任何支持 skill 的智能体项目都能加载即用。
@@ -207,7 +207,7 @@ pip install mootdx requests pandas stockstats
 
 - **当前版本**：`v1.0.0`（首版），记在 `SKILL.md` frontmatter 的 `version:` 字段，遵循 [Semantic Versioning](https://semver.org/)。
 - **变更日志**：见 `CHANGELOG.md`（扁平格式 `- [类型] 描述`，类型：新功能/改进/修复/文档/测试/chore）。
-- **能力**：薄编排架构（编排 + 指标 + K线 + 存储）+ 全数据委托 a-stock-data + K线 发现+持久化（候选 百度/mootdx/腾讯，命中源存 `storage/kline_chain.json`）+ 多股分层批量 runner（30 只 Tier1 1.3s）+ 41 单元测试。
+- **能力**：薄编排架构（编排 + 指标 + K线 + 存储）+ 全数据委托 a-stock-data + K线 发现+持久化（候选 百度/mootdx/腾讯，命中源存 `storage/kline_chain.json`）+ 多股分层批量 runner（30 只 Tier1 1.3s）+ 43 单元测试。
 
 后续版本按 SemVer 维护：patch 修 bug、minor 加端点/能力（向后兼容）、major 破坏性变更。
 

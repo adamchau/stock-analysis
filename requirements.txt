@@ -1,0 +1,7 @@
+# stock-analysis skill v3.0.0 依赖
+# 本 skill 是薄编排层：scripts/lib/indicators.py 纯 Python 标准库，零 pip 依赖。
+# 所有数据获取（行情/基本面/新闻/资金流等）委托 sibling skill a-stock-data，
+# 其依赖（mootdx/stockstats/requests/pandas）见 .claude/skills/a-stock-data/SKILL.md，
+# 已装于项目 .venv。
+#
+# 历史上 v2.x 曾依赖 requests/PyYAML/akshare（自建 fetcher），v3.0.0 全部 fetcher 删除后不再需要。
